@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="en" ng-app="liveApp">
+
+
+
+<head>
+
+    <meta charset="utf-8">
+
+    <title>AngularJS - Confirm Password Validation Example</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.7/angular.min.js"></script>
+
+</head>
+
+
+
+<body>
+
+
+
+    <h2>AngularJS - Confirm Password Validation Example</h2>
+
+    <div ng-controller="repeatCtrl">
+
+        <form name="liveForm">
+
+
+
+            <div>
+
+                <label>Password</label>
+
+                <input type="password" name="livePass" ng-model="livePass" required class="form-control" />
+
+            </div>
+
+
+
+            <div>
+
+                <label>Confirm Password</label>
+
+                <input type="password" name="repeatPass" ng-model="repeatPass" required compare-to="livePass"
+                    class="form-control" />
+
+                <span class="error text-danger" ng-show="liveForm.repeatPass.$error.compareTo">
+
+                    Passwords don't match.
+
+                </span>
+
+            </div>
+
+
+
+        </form>
+
+    </div>
+
+
+
+    <script type="text/javascript">
+
+        var liveApp = angular.module("liveApp", []);
+
+
+
+        liveApp.controller("repeatCtrl", function ($scope) {
+
+            $scope.student = {
+
+                password: "",
+
+                repeatPassword: ""
+
+            };
+
+        });
+
+
+
+        liveApp.directive("compareTo", function () {
+
+            return {
+
+                require: "ngModel",
+
+                scope:
+
+                {
+
+                    repeatPassword: "=compareTo"
+
+                },
+
+                link: function (scope, element, attributes, paramval) {
+
+                    paramval.$validators.compareTo = function (val) {
+
+                        return val == scope.repeatPassword;
+
+                    };
+
+                    scope.$watch("repeatPassword", function () {
+
+                        paramval.$validate();
+
+                    });
+
+                }
+
+            };
+
+        });
+
+    </script>
+
+
+
+</body>
+
+</html>
